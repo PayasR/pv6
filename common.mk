@@ -17,10 +17,10 @@ ASFLAGS = -m32 -gdwarf-2 -Wa,-divide -I$(INCLUDE)
 # FreeBSD ld wants ``elf_i386_fbsd''
 LDFLAGS += -m $(shell $(LD) -V | grep elf_i386 2>/dev/null)
 
-SOURCE = $(ROOT)pv6/kern/source/
+SOURCE = $(ROOT)src/kern/source/
 SCRIPTS = $(ROOT)
-INCLUDE = $(ROOT)pv6/kern/include/
-UBIN = $(ROOT)pv6/userspace/bin/
+INCLUDE = $(ROOT)src/kern/include/
+UBIN = $(ROOT)src/userland/bin/
 
 UPROGS = _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh\
 		 _stressfs _usertests _wc _zombie
