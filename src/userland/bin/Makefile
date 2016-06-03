@@ -61,7 +61,7 @@ _zombie: zombie.o $(ULIB)
 _forktest: forktest.o $(ULIB)
 	# forktest has less library code linked in - needs to be small
 	# in order to be able to max out the proc table.
-	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o _forktest forktest.o $(LIB)ulib.o $(LIB)usys.o
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o _forktest forktest.o $(LIB)ulib.o $(LIBARCH)usys.o
 	cp $@ $(ROOT)
 
 clean:
@@ -69,4 +69,4 @@ clean:
 
 include ../../../common.mk
 
-ULIB = $(addprefix $(LIB), ulib.o umalloc.o printf.o usys.o)
+ULIB = $(addprefix $(LIB), ulib.o umalloc.o printf.o) $(addprefix $(LIBARCH), usys.o memset.o)

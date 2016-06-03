@@ -26,6 +26,7 @@ TOOLS = $(SRC)tools/
 USERLAND = $(SRC)userland/
 BIN = $(USERLAND)/bin/
 LIB = $(USERLAND)/lib/
+LIBARCH = $(USERLAND)/arch/$(ARCH)/lib/
 
 UPROGS = _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh\
 		 _stressfs _usertests _wc _zombie

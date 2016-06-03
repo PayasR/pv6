@@ -17,6 +17,7 @@ fs.img: mkfs README userland $(PROGS)
 	./mkfs fs.img README $(UPROGS)
 
 userland:
+	$(MAKE) -C $(LIBARCH)
 	$(MAKE) -C $(LIB)
 	$(MAKE) -C $(BIN)
 
@@ -29,6 +30,7 @@ clean:
 	$(MAKE) -C $(BOOT) clean
 	$(MAKE) -C $(TOOLS) clean
 	$(MAKE) -C $(LIB) clean
+	$(MAKE) -C $(LIBARCH) clean
 
 # run in emulators
 

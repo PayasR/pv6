@@ -1,4 +1,4 @@
-all: ulib.o usys.o umalloc.o printf.o
+all: ulib.o umalloc.o printf.o
 
 clean:
 	rm -f *.o *.d

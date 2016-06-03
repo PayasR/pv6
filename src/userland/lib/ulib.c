@@ -2,7 +2,6 @@
 #include "stat.h"
 #include "fcntl.h"
 #include "user.h"
-#include "x86.h"
 
 char*
 strcpy(char *s, char *t)
@@ -31,13 +30,6 @@ strlen(char *s)
   for(n = 0; s[n]; n++)
     ;
   return n;
-}
-
-void*
-memset(void *dst, int c, uint n)
-{
-  stosb(dst, c, n);
-  return dst;
 }
 
 char*
@@ -96,7 +88,7 @@ void*
 memmove(void *vdst, void *vsrc, int n)
 {
   char *dst, *src;
-  
+
   dst = vdst;
   src = vsrc;
   while(n-- > 0)
