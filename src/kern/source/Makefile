@@ -24,11 +24,7 @@ initcode: initcode.S
 vectors.S:
 	perl $(SCRIPTS)vectors.pl > vectors.S
 
-mkfs: mkfs.c
-	gcc -Werror -Wall -o mkfs mkfs.c
-	cp mkfs $(ROOT)
-
 clean:
-	rm -f *.o *.asm *.d *.sym bootblock entryother initcode mkfs initcode.out kernel
+	rm -f *.o *.asm *.d *.sym entryother initcode initcode.out kernel
 
 include ../../../common.mk

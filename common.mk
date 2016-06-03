@@ -23,6 +23,7 @@ INC = $(SRC)kern/include/
 ARCHINC = $(SRC)kern/arch/$(ARCH)/include/
 UBIN = $(SRC)userland/bin/
 BOOT = $(SRC)kern/arch/$(ARCH)/boot/
+TOOLS = $(SRC)tools
 
 UPROGS = _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh\
 		 _stressfs _usertests _wc _zombie

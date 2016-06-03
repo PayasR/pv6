@@ -10,11 +10,13 @@ kernel:
 	$(MAKE) -C $(SOURCE) kernel
 
 mkfs:
-	$(MAKE) -C $(SOURCE) mkfs
+	$(MAKE) -C $(TOOLS) mkfs
 
-fs.img: mkfs README
-	$(MAKE) -C $(UBIN)
+fs.img: mkfs README userland
 	./mkfs fs.img README $(UPROGS)
+
+userland:
+	$(MAKE) -C $(UBIN)
 
 clean:
 	rm -f *.asm *.sym vectors.S bootblock entryother \
@@ -23,6 +25,7 @@ clean:
 	$(MAKE) -C $(SOURCE) clean
 	$(MAKE) -C $(UBIN) clean
 	$(MAKE) -C $(BOOT) clean
+	$(MAKE) -C $(TOOLS) clean
 
 # run in emulators
 
@@ -50,5 +53,9 @@ qemu-gdb: fs.img xv6.img .gdbinit
 qemu-nox-gdb: fs.img xv6.img .gdbinit
 	@echo "*** Now run 'gdb'." 1>&2
 	$(QEMU) -nographic $(QEMUOPTS) -S $(QEMUGDB)
+
+# these all need to be phony because they're built by stubs that just call into
+# another Makefile
+.PHONY: bootblock kernel userland mkfs
 
 include common.mk
