@@ -4,7 +4,7 @@ xv6.img: bootblock kernel fs.img
 	dd if=kernel of=xv6.img seek=1 conv=notrunc
 
 bootblock:
-	$(MAKE) -C $(SOURCE) bootblock
+	$(MAKE) -C $(BOOT) bootblock
 
 kernel:
 	$(MAKE) -C $(SOURCE) kernel
@@ -22,6 +22,7 @@ clean:
 	.gdbinit $(UPROGS)
 	$(MAKE) -C $(SOURCE) clean
 	$(MAKE) -C $(UBIN) clean
+	$(MAKE) -C $(BOOT) clean
 
 # run in emulators
 

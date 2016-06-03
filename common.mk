@@ -20,8 +20,9 @@ SRC = $(ROOT)src/
 SOURCE = $(SRC)kern/source/
 SCRIPTS = $(ROOT)
 INC = $(SRC)kern/include/
-ARCHINC = $(ROOT)src/kern/arch/$(ARCH)/include/
-UBIN = $(ROOT)src/userland/bin/
+ARCHINC = $(SRC)kern/arch/$(ARCH)/include/
+UBIN = $(SRC)userland/bin/
+BOOT = $(SRC)kern/arch/$(ARCH)/boot/
 
 UPROGS = _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh\
 		 _stressfs _usertests _wc _zombie
