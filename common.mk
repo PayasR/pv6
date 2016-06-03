@@ -1,5 +1,5 @@
 # TOOLPREFIX =
-# ARCH = x86
+ARCH = x86
 QEMU = qemu-system-i386
 TARGET = xv6.img
 CPUS = 2
@@ -11,15 +11,17 @@ LD = $(TOOLPREFIX)ld
 OBJCOPY = $(TOOLPREFIX)objcopy
 OBJDUMP = $(TOOLPREFIX)objdump
 #CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer
-CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -fvar-tracking -fvar-tracking-assignments -O0 -g -Wall -MD -gdwarf-2 -m32 -Werror -fno-omit-frame-pointer -I$(INCLUDE)
+CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -fvar-tracking -fvar-tracking-assignments -O0 -g -Wall -MD -gdwarf-2 -m32 -Werror -fno-omit-frame-pointer -I$(INC) -I$(ARCHINC)
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
-ASFLAGS = -m32 -gdwarf-2 -Wa,-divide -I$(INCLUDE)
+ASFLAGS = -m32 -gdwarf-2 -Wa,-divide -I$(INC) -I$(ARCHINC)
 # FreeBSD ld wants ``elf_i386_fbsd''
 LDFLAGS += -m $(shell $(LD) -V | grep elf_i386 2>/dev/null)
 
-SOURCE = $(ROOT)src/kern/source/
+SRC = $(ROOT)src/
+SOURCE = $(SRC)kern/source/
 SCRIPTS = $(ROOT)
-INCLUDE = $(ROOT)src/kern/include/
+INC = $(SRC)kern/include/
+ARCHINC = $(ROOT)src/kern/arch/$(ARCH)/include/
 UBIN = $(ROOT)src/userland/bin/
 
 UPROGS = _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh\
