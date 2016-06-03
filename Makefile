@@ -12,18 +12,19 @@ kernel:
 mkfs:
 	$(MAKE) -C $(TOOLS) mkfs
 
-fs.img: mkfs README userland
+PROGS = $(addprefix $(BIN), $(UPROGS))
+fs.img: mkfs README userland $(PROGS)
 	./mkfs fs.img README $(UPROGS)
 
 userland:
-	$(MAKE) -C $(UBIN)
+	$(MAKE) -C $(BIN)
 
 clean:
 	rm -f *.asm *.sym vectors.S bootblock entryother \
 	kernel xv6.img fs.img mkfs \
 	.gdbinit $(UPROGS)
 	$(MAKE) -C $(SOURCE) clean
-	$(MAKE) -C $(UBIN) clean
+	$(MAKE) -C $(BIN) clean
 	$(MAKE) -C $(BOOT) clean
 	$(MAKE) -C $(TOOLS) clean
 

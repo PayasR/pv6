@@ -21,7 +21,7 @@ SOURCE = $(SRC)kern/source/
 SCRIPTS = $(ROOT)
 INC = $(SRC)kern/include/
 ARCHINC = $(SRC)kern/arch/$(ARCH)/include/
-UBIN = $(SRC)userland/bin/
+BIN = $(SRC)userland/bin/
 BOOT = $(SRC)kern/arch/$(ARCH)/boot/
 TOOLS = $(SRC)tools
 
