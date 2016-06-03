@@ -11,7 +11,131 @@
 </nav>
 
 <article>
-        <h1>Restructuring the source code for portability</h1>
+  <h1>Restructuring the source code for portability</h1>
+  <p>The original <code>xv6</code> code was not written with portability in
+  mind. This is readily apparent when you look at the layout of the source code:
+  everything is commingled in one flat hierarchy, with no distinction between
+  architecture independent and architecture dependent files. Before beginning
+  the actual port to RISCV I needed to restructure the source code to make
+  <code>xv6</code> portable. It was this portability requirement that prompted
+  the name change to pv6.</p>
+
+  <p>OpenBSD developer Ted Unangst <a
+    href="https://www.openbsd.org/papers/pruning.html">writes about</a>
+  <em>pruning</em> and <em>polishing</em> as two techniques for keeping code
+  modern, which helps to make it portable and easier to maintain. I found these
+  ideas useful to think about as I worked on restructuring the code and
+  rewriting the build system.</p>
+
+  <h2>Pruning</h2>
+  <p>Pruning just means getting rid of stuff that is no longer necessary.
+  Figuring out what parts of the <code>xv6</code> code base were no longer
+  needed was a large part of what I did in this part of the project.</p>
+
+  <h3>Cleaning up the <code>Makefile</code></h3>
+
+  <p>The <code>Makefile</code> had a lot unnecessary features. I got rid of: (1)
+  all of the memfs parts since I won't make use of memfs and I want to reduce
+  the amount of unshared functionality to the minimum; (2) the tags target,
+  which generated an etags file. This target wasn't a dependency of any other
+  target, so the tags file would only be created if someone typed <code>make
+  tags</code>. I got rid of this because it cluttered the <code>Makefile</code>
+  with extra targets that weren't useful to most people; (3) all of the
+  conditional checks that selectively configured variables. I've found that
+  these sorts of checks are error prone since most of the paths go unused, so I
+  got rid of them and moved the configurable parts to a separate file,
+  <code>common.mk</code> which users are expected to edit in order to set the
+  proper values. In the future I may write a <code>configure</code> script to
+  make this simpler, but as it stands it is pretty easy and straightforward so
+  this is a low priority task; (4) all of the typesetting stuff. The original
+  <code>Makefile</code> contained code for generating a source code listing.
+  This was useful when the code was all for x86, but now that RISCV specific
+  code is going to be mixed in it makes less sense, since the listing will just
+  be confusing, so for now I've cut this part of the <code>Makefile</code> out.
+  If I have time at the end of the project it may make sense to add this back
+  in, but I'm not sure how useful it really is, since browsing the source code
+  is easy enough; (5) lastly, I removed support for <code>bochs</code>, an x86
+  emulator, because pv6 is meant to be portable and I wanted the development
+  experience to be as consistent as possible across different architectures,
+  which means using <code>QEMU</code> when it is available.</p>
+
+  <h3>Deleting files</h3>
+
+  <p>Most of the files I deleted corresponded to changes made in the Makefile
+  as described above. I deleted: (1) the <code>memfs.c</code> file. This was
+  only a few tens of lines, so it will be easy to add back if necessary; (2)
+  all of the scripts related to generating the typesetting the source listings;
+  (3) the <code>bochs</code> configuration file and a few other unneeded
+  dotfiles like <code>.cvsignore</code>; (4) lastly there was a script to run
+  the SPIN model checker and a PROMELA model for verifying some concurrency
+  properties of xv6.  I don't know how to use SPIN or PROMELA so I got rid of
+  these. Again, they will be easy to add back if desirable.</p>
+
+  <h2>Polishing</h2>
+
+  <h3>Arranging the source files hierarchically</h3>
+
+  <p>After deleting everything that was no longer needed, I still had to arrange
+  the existing source code so that it was easy to port. To start with this meant
+  separating the header files and the source files and placing them in separate
+  directories. I could then further subdivide the code based on whether it
+  belonged to the kernel or to userland. Currently the architecture dependent
+  and the architecture independent code is still commingled, but as I proceed
+  with the port I will separate these as they arise. I also intend to further
+  subdivide the header files, since some are included by both userland programs
+  and kernel files, while others are only used by the kernel or by userland.
+  Similarly, I plan on factoring out the userland library code
+  (<code>printf.c</code>, <code>ulib.c</code>, <code>umalloc.c</code>, and
+  <code>usys.S</code>) from the code for actual userland programs.</p>
+
+  <h3>Modifying <code>mkfs.c</code></h3>
+
+  <p><code>mkfs.c</code> was used to generate the <code>mkfs</code> program,
+  which when run with the <code>README</code> and user programs as arguments
+  would create a file system suitable for use by <code>xv6</code>. This program
+  was slightly strange in that it used the system compiler (rather than the
+  cross-compiler) to build it (since the resulting binary is then run by the
+  host computer) but it includes some of the <code>xv6</code> header files.
+  After restructuring the code hierarchically, attempting to compile
+  <code>mkfs</code> created some strange error messages because the compiler was
+  getting confused about which header files were <code>xv6</code> header files
+  and which were system header files. This stumped me for a bit, but the
+  eventual solution was comically simple: I changed the paths to the
+  <code>xv6</code> headers in the "#include" directives rather than trying to
+  get the compiler to try to find the proper headers with the "-I" argument.</p>
+
+  <h2>Problems I encountered</h2>
+
+  <p>Unsurprisingly, <code>Make</code> was often frustrating to deal with.
+  <code>Make</code>'s syntax is baroque, but it tends to be easy enough for
+  small projects.  With a mid-size project like <code>pv6</code> however,
+  <code>Make</code>'s deficiencies begin to show. <code>Make</code> doesn't
+  provide good support for building code that is arranged hierarchically, so
+  figuring out how to do so took some time. I also have a few lingering issues
+  with properly tracking dependencies since <code>Make</code> finds it difficult
+  to deal with dependencies that are located closer to the root of the hierarchy
+  than the target is. These issues are minor however, and in the worst case a
+  <code>Make clean</code> is all that's needed to fix things.</p>
+
+  <p>I briefly considered using something other than <code>Make</code> for the
+  build system, but quickly decided against it for the simple reason that
+  <code>Make</code> is the standard build system and comes with every unix
+  descendent I'm familiar with. Plus, I haven't found one that is actually much
+  of an improvement, particularly for a project like this one, which is somewhat
+  tricky to compile.</p>
+
+  <h2>Areas for future improvement</h2>
+
+  <p>As I mentioned, there are still some things to shake out in the Makefiles,
+  but these are not major issues: the Makefiles work fine, despite sometimes
+  requiring some duplicated work. Going forth, as I begin the port to RISCV I
+  will need to separate the architecture dependent from the architecture
+  independent code and this will require rearranging the code into a finer
+  grained hierarchy with the two types of code separated from each other and
+  which architecture to compile for selectable in the Makefiles. Fortunately,
+  the hard part was (hopefully!) getting the initial hierarchy in place and it
+  should be straightforward to perform these updates.</p>
+
 </article>
 
 </body>
