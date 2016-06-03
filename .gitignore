@@ -13,3 +13,4 @@ initcode.out
 kernel
 mkfs
 .gdbinit
+tags
