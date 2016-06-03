@@ -6,7 +6,6 @@ CPUS = 2
 ROOT = $(PWD)/
 
 CC = $(TOOLPREFIX)gcc
-AS = $(TOOLPREFIX)gas
 LD = $(TOOLPREFIX)ld
 OBJCOPY = $(TOOLPREFIX)objcopy
 OBJDUMP = $(TOOLPREFIX)objdump
