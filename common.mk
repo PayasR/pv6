@@ -16,17 +16,18 @@ ASFLAGS = -m32 -gdwarf-2 -Wa,-divide -I$(INC) -I$(ARCHINC)
 LDFLAGS += -m $(shell $(LD) -V | grep elf_i386 2>/dev/null)
 
 SRC = $(ROOT)src/
-KERN = $(SRC)kern
-SOURCE = $(KERN)/source/
+KERN = $(SRC)kern/
+KERNARCH = $(KERN)arch/$(ARCH)/
+SOURCE = $(KERN)source/
 SCRIPTS = $(ROOT)
-INC = $(KERN)/include/
-ARCHINC = $(KERN)/arch/$(ARCH)/include/
-BOOT = $(KERN)/arch/$(ARCH)/boot/
+INC = $(KERN)include/
+ARCHINC = $(KERN)arch/$(ARCH)/include/
+BOOT = $(KERN)arch/$(ARCH)/boot/
 TOOLS = $(SRC)tools/
 USERLAND = $(SRC)userland/
-BIN = $(USERLAND)/bin/
-LIB = $(USERLAND)/lib/
-LIBARCH = $(USERLAND)/arch/$(ARCH)/lib/
+BIN = $(USERLAND)bin/
+LIB = $(USERLAND)lib/
+LIBARCH = $(USERLAND)arch/$(ARCH)/lib/
 
 UPROGS = _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh\
 		 _stressfs _usertests _wc _zombie

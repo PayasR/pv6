@@ -7,7 +7,7 @@ bootblock:
 	$(MAKE) -C $(BOOT) bootblock
 
 kernel:
-	$(MAKE) -C $(SOURCE) kernel
+	$(MAKE) -C $(KERN) kernel
 
 mkfs:
 	$(MAKE) -C $(TOOLS) mkfs
@@ -22,12 +22,11 @@ userland:
 	$(MAKE) -C $(BIN)
 
 clean:
-	rm -f *.asm *.sym vectors.S bootblock entryother \
-	kernel xv6.img fs.img mkfs \
+	rm -f *.asm *.sym vectors.S bootblock entryother kernel xv6.img fs.img mkfs \
 	.gdbinit $(UPROGS)
-	$(MAKE) -C $(SOURCE) clean
+	$(MAKE) -C $(KERN) clean
+	$(MAKE) -C $(BOOT) clean # TODO: consolidate with KERN clean above
 	$(MAKE) -C $(BIN) clean
-	$(MAKE) -C $(BOOT) clean
 	$(MAKE) -C $(TOOLS) clean
 	$(MAKE) -C $(LIB) clean
 	$(MAKE) -C $(LIBARCH) clean
