@@ -25,7 +25,7 @@ clean:
 	rm -f *.asm *.sym vectors.S bootblock entryother kernel xv6.img fs.img mkfs \
 	.gdbinit $(UPROGS)
 	$(MAKE) -C $(KERN) clean
-	$(MAKE) -C $(BOOT) clean # TODO: consolidate with KERN clean above
+	$(MAKE) -C $(BOOT) clean
 	$(MAKE) -C $(BIN) clean
 	$(MAKE) -C $(TOOLS) clean
 	$(MAKE) -C $(LIB) clean
