@@ -9,4 +9,4 @@ bootblock: bootasm.S bootmain.c
 clean:
 	rm -f *.o *.d *.asm bootblock
 
-include ../../../../../common.mk
+include ../../../../common.mk
