@@ -12,6 +12,7 @@ endif
 
 ifeq ($(ARCH), riscv)
 QEMU = qemu-system-riscv
+TOOLPREFIX = riscv64-unknown-elf-
 endif
 
 CC = $(TOOLPREFIX)gcc
