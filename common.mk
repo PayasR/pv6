@@ -1,19 +1,27 @@
 # TOOLPREFIX =
 ARCH = x86
-QEMU = qemu-system-i386
 TARGET = xv6.img
 CPUS = 2
 ROOT = $(PWD)/
+
+ifeq ($(ARCH), x86)
+QEMU = qemu-system-i386
+ARCHFLAGS = -m32
+ARCHLDFLAGS = -m elf_i386
+endif
+
+ifeq ($(ARCH), riscv)
+QEMU = qemu-system-riscv
+endif
 
 CC = $(TOOLPREFIX)gcc
 LD = $(TOOLPREFIX)ld
 OBJCOPY = $(TOOLPREFIX)objcopy
 OBJDUMP = $(TOOLPREFIX)objdump
-CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -fvar-tracking -fvar-tracking-assignments -O0 -g -Wall -MD -gdwarf-2 -m32 -Werror -fno-omit-frame-pointer -I$(INC) -I$(ARCHINC)
+CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -fvar-tracking -fvar-tracking-assignments -O0 -g -Wall -MD -gdwarf-2 $(ARCHFLAGS) -Werror -fno-omit-frame-pointer -I$(INC) -I$(ARCHINC)
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
-ASFLAGS = -m32 -gdwarf-2 -Wa,-divide -I$(INC) -I$(ARCHINC)
-# FreeBSD ld wants ``elf_i386_fbsd''
-LDFLAGS += -m $(shell $(LD) -V | grep elf_i386 2>/dev/null)
+ASFLAGS = $(ARCHFLAGS) -gdwarf-2 -Wa,-divide -I$(INC) -I$(ARCHINC)
+LDFLAGS += $(ARCHLDFLAGS)
 
 SRC = $(ROOT)src/
 KERN = $(SRC)kern/
