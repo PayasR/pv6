@@ -1,5 +1,5 @@
 kernel: vectors $(OBJS) entry.o entryother initcode fs kmain trap io syscall util thread proc vm
-	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld -o kernel entry.o $(OBJS) -b binary initcode entryother
+	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld entry.o $(OBJS) -b binary initcode entryother
 	cp kernel $(ROOT)
 
 fs:
