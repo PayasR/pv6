@@ -1,5 +1,5 @@
 # TOOLPREFIX =
-ARCH = x86
+ARCH = riscv
 TARGET = xv6.img
 CPUS = 2
 ROOT = $(PWD)/
