@@ -45,7 +45,7 @@ main(void)
 static void
 mpenter(void)
 {
-  switchkvm(); 
+  switchkvm();
   seginit();
   lapicinit();
   mpmain();
@@ -82,7 +82,7 @@ startothers(void)
     if(c == cpus+cpunum())  // We've started already.
       continue;
 
-    // Tell entryother.S what stack to use, where to enter, and what 
+    // Tell entryother.S what stack to use, where to enter, and what
     // pgdir to use. We cannot use kpgdir yet, because the AP processor
     // is running in low  memory, so we use entrypgdir for the APs too.
     stack = kalloc();
@@ -100,7 +100,7 @@ startothers(void)
 
 // Boot page table used in entry.S and entryother.S.
 // Page directories (and page tables), must start on a page boundary,
-// hence the "__aligned__" attribute.  
+// hence the "__aligned__" attribute.
 // Use PTE_PS in page directory entry to enable 4Mbyte pages.
 __attribute__((__aligned__(PGSIZE)))
 pde_t entrypgdir[NPDENTRIES] = {
@@ -109,7 +109,3 @@ pde_t entrypgdir[NPDENTRIES] = {
   // Map VA's [KERNBASE, KERNBASE+4MB) to PA's [0, 4MB)
   [KERNBASE>>PDXSHIFT] = (0) | PTE_P | PTE_W | PTE_PS,
 };
-
-// Blank page.
-// Blank page.
-// Blank page.
