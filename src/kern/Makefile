@@ -1,4 +1,4 @@
-kernel: vectors $(OBJS) $(ENTRY) entryother initcode fs kmain trap io syscall util thread proc vm boot
+kernel: vectors $(OBJS) $(ENTRY) fs kmain trap io syscall util thread proc vm boot
 	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld $(ENTRY) $(OBJS) -b binary initcode entryother
 	cp kernel $(ROOT)
 
@@ -33,21 +33,11 @@ vm:
 boot:
 	$(MAKE) -C $(KERNARCH)boot
 
-entryother: entryother.S
-	$(CC) $(CFLAGS) -fno-pic -nostdinc -c entryother.S
-	$(LD) $(LDFLAGS) -N -e start -Ttext 0x7000 -o bootblockother.o entryother.o
-	$(OBJCOPY) -S -O binary -j .text bootblockother.o entryother
-
-initcode: initcode.S
-	$(CC) $(CFLAGS) -nostdinc -c initcode.S
-	$(LD) $(LDFLAGS) -N -e start -Ttext 0 -o initcode.out initcode.o
-	$(OBJCOPY) -S -O binary initcode.out initcode
-
 vectors:
 	perl $(SCRIPTS)vectors.pl > $(KERNARCH)trap/vectors.S
 
 clean:
-	rm -f kernel initcode initcode.out entryother *.o *.d
+	rm -f kernel initcode entryother
 	$(MAKE) -C $(KERN)fs clean
 	$(MAKE) -C $(KERNARCH)fs clean
 	$(MAKE) -C $(KERNARCH)kmain clean
