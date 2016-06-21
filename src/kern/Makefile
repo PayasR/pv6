@@ -1,5 +1,5 @@
-kernel: vectors $(OBJS) entry.o entryother initcode fs kmain trap io syscall util thread proc vm
-	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld entry.o $(OBJS) -b binary initcode entryother
+kernel: vectors $(OBJS) $(ENTRY) entryother initcode fs kmain trap io syscall util thread proc vm boot
+	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld $(ENTRY) $(OBJS) -b binary initcode entryother
 	cp kernel $(ROOT)
 
 fs:
@@ -30,6 +30,9 @@ proc:
 vm:
 	$(MAKE) -C $(KERNARCH)vm
 
+boot:
+	$(MAKE) -C $(KERNARCH)boot
+
 entryother: entryother.S
 	$(CC) $(CFLAGS) -fno-pic -nostdinc -c entryother.S
 	$(LD) $(LDFLAGS) -N -e start -Ttext 0x7000 -o bootblockother.o entryother.o
@@ -55,8 +58,9 @@ clean:
 	$(MAKE) -C $(KERNARCH)thread clean
 	$(MAKE) -C $(KERNARCH)proc clean
 	$(MAKE) -C $(KERNARCH)vm clean
+	$(MAKE) -C $(KERNARCH)boot clean
 
-.PHONY: fs kmain trap io syscall util thread proc vm vectors
+.PHONY: fs kmain trap io syscall util thread proc vm vectors boot
 
 include ../../common.mk
 
@@ -75,6 +79,6 @@ UTILARCH = $(addprefix $(KERNARCH)util/, string.o kalloc.o)
 THREADARCH = $(addprefix $(KERNARCH)thread/, swtch.o spinlock.o)
 PROCARCH = $(addprefix $(KERNARCH)proc/, proc.o)
 VMARCH = $(addprefix $(KERNARCH)vm/, vm.o)
+ENTRY = $(addprefix $(KERNARCH)boot/, entry.o)
 
 OBJS = $(FS) $(FSARCH) $(KMAIN) $(TRAPARCH) $(IOARCH) $(SYSCALLARCH) $(UTILARCH) $(THREADARCH) $(PROCARCH) $(VMARCH)
-
