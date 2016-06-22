@@ -29,11 +29,4 @@ clean: archclean
 .PHONY: kernel userland mkfs archclean
 
 include common.mk
-
-ifeq ($(ARCH), x86)
-include x86.mk
-endif
-
-ifeq ($(ARCH), riscv)
-include riscv.mk
-endif
+include $(ARCH).mk
