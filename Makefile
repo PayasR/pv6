@@ -1,4 +1,4 @@
-all: xv6.img
+all: archall
 
 kernel:
 	$(MAKE) -C $(KERN) kernel
@@ -15,11 +15,10 @@ userland:
 	$(MAKE) -C $(LIB)
 	$(MAKE) -C $(BIN)
 
-clean:
-	rm -f *.asm *.sym vectors.S bootblock entryother kernel xv6.img fs.img mkfs \
+clean: archclean
+	rm -f kernel fs.img mkfs \
 	.gdbinit $(UPROGS)
 	$(MAKE) -C $(KERN) clean
-	$(MAKE) -C $(BOOT) clean
 	$(MAKE) -C $(BIN) clean
 	$(MAKE) -C $(TOOLS) clean
 	$(MAKE) -C $(LIB) clean
@@ -27,7 +26,7 @@ clean:
 
 # run in emulators
 
-.PHONY: kernel userland mkfs
+.PHONY: kernel userland mkfs archclean
 
 include common.mk
 

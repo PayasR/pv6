@@ -1,3 +1,5 @@
+archall: xv6.img
+
 xv6.img: bootblock kernel fs.img
 	dd if=/dev/zero of=xv6.img count=10000
 	dd if=bootblock of=xv6.img conv=notrunc
@@ -5,6 +7,11 @@ xv6.img: bootblock kernel fs.img
 
 bootblock:
 	$(MAKE) -C $(BOOT) bootblock
+
+# architecture specific clean command
+archclean:
+	rm -f bootblock xv6.img
+	$(MAKE) -C $(BOOT) clean
 
 # try to generate a unique GDB port
 GDBPORT = $(shell expr `id -u` % 5000 + 25000)
