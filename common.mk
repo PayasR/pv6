@@ -1,27 +1,29 @@
 # TOOLPREFIX =
-ARCH = x86
+ARCH = riscv
 TARGET = xv6.img
 CPUS = 2
 ROOT = $(PWD)/
 
 ifeq ($(ARCH), x86)
 QEMU = qemu-system-i386
-ARCHFLAGS = -m32
+ARCHAFLAGS = -m32 -Wa,-divide
+ARCHCFLAGS = -m32
 ARCHLDFLAGS = -m elf_i386
 endif
 
 ifeq ($(ARCH), riscv)
 QEMU = qemu-system-riscv
 TOOLPREFIX = riscv64-unknown-elf-
+ARCHCFLAGS = -mcmodel=medany
 endif
 
 CC = $(TOOLPREFIX)gcc
 LD = $(TOOLPREFIX)ld
 OBJCOPY = $(TOOLPREFIX)objcopy
 OBJDUMP = $(TOOLPREFIX)objdump
-CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -fvar-tracking -fvar-tracking-assignments -O0 -g -Wall -MD -gdwarf-2 $(ARCHFLAGS) -Werror -fno-omit-frame-pointer -I$(INC) -I$(ARCHINC)
+CFLAGS = -fno-pic -static -fno-builtin -fno-strict-aliasing -fvar-tracking -fvar-tracking-assignments -O0 -g -Wall -MD -gdwarf-2 $(ARCHCFLAGS) -Werror -fno-omit-frame-pointer -I$(INC) -I$(ARCHINC)
 CFLAGS += $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
-ASFLAGS = $(ARCHFLAGS) -gdwarf-2 -Wa,-divide -I$(INC) -I$(ARCHINC)
+ASFLAGS = $(ARCHAFLAGS) -gdwarf-2 -I$(INC) -I$(ARCHINC)
 LDFLAGS += $(ARCHLDFLAGS)
 
 SRC = $(ROOT)src/

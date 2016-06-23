@@ -1,9 +1,5 @@
 all: archall
 
-kernel: $(OBJS) $(ENTRY) fs kmain trap io syscall util thread proc vm boot
-	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld $(ENTRY) $(OBJS) -b binary initcode entryother
-	cp kernel $(ROOT)
-
 fs:
 	$(MAKE) -C $(KERN)fs
 	$(MAKE) -C $(KERNARCH)fs
@@ -50,6 +46,9 @@ clean:
 	$(MAKE) -C $(KERNARCH)boot clean
 
 .PHONY: fs kmain trap io syscall util thread proc vm vectors boot
+
+# Architecture independent kernel files get added here
+FS = $(addprefix $(KERN)fs/, bio.o file.o log.o)
 
 include ../../common.mk
 include $(ARCH).mk
