@@ -1,3 +1,9 @@
+#pragma once
+
+#include "param.h"
+#include "types.h"
+#include "mmu.h"
+
 // Segments in proc->gdt.
 #define NSEGS     7
 

@@ -1,4 +1,5 @@
-// This file contains definitions for the 
+#pragma once
+// This file contains definitions for the
 // x86 memory management unit (MMU).
 
 // Eflags register
@@ -105,7 +106,7 @@ struct segdesc {
 // | Page Directory |   Page Table   | Offset within Page  |
 // |      Index     |      Index     |                     |
 // +----------------+----------------+---------------------+
-//  \--- PDX(va) --/ \--- PTX(va) --/ 
+//  \--- PDX(va) --/ \--- PTX(va) --/
 
 // page directory index
 #define PDX(va)         (((uint)(va) >> PDXSHIFT) & 0x3FF)

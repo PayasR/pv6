@@ -17,9 +17,11 @@ syscall:
 	$(MAKE) -C $(KERNARCH)syscall
 
 util:
+	$(MAKE) -C $(KERN)util
 	$(MAKE) -C $(KERNARCH)util
 
 thread:
+	$(MAKE) -C $(KERN)thread
 	$(MAKE) -C $(KERNARCH)thread
 
 proc:
@@ -49,6 +51,8 @@ clean:
 
 # Architecture independent kernel files get added here
 FS = $(addprefix $(KERN)fs/, bio.o file.o log.o)
+UTIL = $(addprefix $(KERN)util/, string.o)
+THREAD = $(addprefix $(KERN)thread/, spinlock.o)
 
 include ../../common.mk
 include $(ARCH).mk

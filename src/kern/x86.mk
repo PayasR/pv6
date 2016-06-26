@@ -24,4 +24,4 @@ PROCARCH = $(addprefix $(KERNARCH)proc/, proc.o)
 VMARCH = $(addprefix $(KERNARCH)vm/, vm.o)
 ENTRY = $(addprefix $(KERNARCH)boot/, entry.o)
 
-OBJS = $(FS) $(FSARCH) $(KMAIN) $(TRAPARCH) $(IOARCH) $(SYSCALLARCH) $(UTILARCH) $(THREADARCH) $(PROCARCH) $(VMARCH)
+OBJS = $(FS) $(FSARCH) $(KMAIN) $(TRAPARCH) $(IOARCH) $(SYSCALLARCH) $(UTIL) $(UTILARCH) $(THREAD) $(THREADARCH) $(PROCARCH) $(VMARCH)

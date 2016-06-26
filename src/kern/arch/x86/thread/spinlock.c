@@ -9,14 +9,6 @@
 #include "proc.h"
 #include "spinlock.h"
 
-void
-initlock(struct spinlock *lk, char *name)
-{
-  lk->name = name;
-  lk->locked = 0;
-  lk->cpu = 0;
-}
-
 // Acquire the lock.
 // Loops (spins) until the lock is acquired.
 // Holding a lock for a long time may cause
@@ -80,14 +72,6 @@ getcallerpcs(void *v, uint pcs[])
   for(; i < 10; i++)
     pcs[i] = 0;
 }
-
-// Check whether this cpu is holding the lock.
-int
-holding(struct spinlock *lock)
-{
-  return lock->locked && lock->cpu == cpu;
-}
-
 
 // Pushcli/popcli are like cli/sti except that they are matched:
 // it takes two popcli to undo two pushcli.  Also, if interrupts
