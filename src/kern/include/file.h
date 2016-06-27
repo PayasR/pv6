@@ -1,3 +1,5 @@
+#pragma once
+
 struct file {
   enum { FD_NONE, FD_PIPE, FD_INODE } type;
   int ref; // reference count

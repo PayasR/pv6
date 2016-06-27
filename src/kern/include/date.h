@@ -1,3 +1,5 @@
+#pragma once
+
 struct rtcdate {
   uint second;
   uint minute;
