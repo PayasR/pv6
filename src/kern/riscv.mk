@@ -1,6 +1,6 @@
 archall: kernel
 
-kernel: $(OBJS) kmain io boot
+kernel: $(OBJS) kmain io boot trap
 	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld $(OBJS)
 	cp kernel $(ROOT)
 
@@ -12,5 +12,6 @@ kernel: $(OBJS) kmain io boot
 IOARCH = $(addprefix $(KERNARCH)io/, uart.o uartasm.o console.o)
 KMAIN = $(addprefix $(KERNARCH)kmain/, main.o)
 ENTRY = $(addprefix $(KERNARCH)boot/, entry.o)
+TRAPARCH = $(addprefix $(KERNARCH)trap/, interrupt.o)
 
-OBJS = $(ENTRY) $(KMAIN) $(IOARCH)
+OBJS = $(ENTRY) $(KMAIN) $(IOARCH) $(TRAPARCH)
