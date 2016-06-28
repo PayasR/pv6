@@ -8,7 +8,8 @@ acquire(struct spinlock *lk)
         panic("acquire");
     }
 
-    // TODO acquire the lock
+    while(spl_try_acquire(&lk->locked) != 0)
+        ;
 
     lk->cpu = cpu;
     getcallerpcs(&lk, lk->pcs);
@@ -24,7 +25,7 @@ release(struct spinlock *lk)
     lk->pcs[0] = 0;
     lk->cpu = 0;
 
-    // TODO release the lock
+    spl_release(&lk->locked) != 0)
 
     popcli();
 }
@@ -37,15 +38,27 @@ getcallerpcs(void *v, uint pcs[])
 
 // pushcli and popcli are matched. ie it takes two popcli to undo two pushcli.
 
-// TODO
 void
 pushcli(void)
 {
-
+    int interruptible = is_interruptible();
+    cli();
+    if (cpu->ncli++ == 0) {
+        cpu->intena = interruptible;
+    }
 }
 
-// TODO
 void
 popcli(void)
 {
+    // TODO
+    if (is_interruptible()) {
+        panic("popcli - interruptible");
+    }
+    if (--cpu->ncli < 0) {
+        panic("popcli");
+    }
+    if (cpu->ncli == 0 && cpu->intena) {
+        sti();
+    }
 }
