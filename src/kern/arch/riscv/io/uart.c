@@ -5,9 +5,6 @@
 void
 uartinit(void)
 {
-    char *p;
-    // Announce that we're here
-    for (p = "pv6 uart enabled\n"; *p; p++) {
-        uartputc(*p);
-    }
 }
+
+// TODO uartintr and uartputc
