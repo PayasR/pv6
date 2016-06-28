@@ -1,5 +1,6 @@
 #pragma once
-// Format of an ELF executable file
+// Format of an ELF executable file. This is 32 bit ELF (not x86 specific, but
+// I wasn't sure where else to put it)
 
 #define ELF_MAGIC 0x464C457FU  // "\x7FELF" in little endian
 
