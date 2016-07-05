@@ -1,5 +1,3 @@
-archall: kernel
-
 kernel: $(OBJS) kmain io boot trap
 	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld $(OBJS)
 	cp kernel $(ROOT)

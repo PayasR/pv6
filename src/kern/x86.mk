@@ -1,6 +1,4 @@
-archall: vectors kernel
-
-kernel: $(OBJS) $(ENTRY) fs kmain trap io syscall util thread proc vm boot
+kernel: vectors $(OBJS) $(ENTRY) fs kmain trap io syscall util thread proc vm boot
 	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld $(ENTRY) $(OBJS) -b binary initcode entryother
 	cp kernel $(ROOT)
 
