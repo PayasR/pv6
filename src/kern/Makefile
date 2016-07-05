@@ -41,6 +41,7 @@ clean:
 	$(MAKE) -C $(KERNARCH)trap clean
 	$(MAKE) -C $(KERNARCH)io clean
 	$(MAKE) -C $(KERNARCH)syscall clean
+	$(MAKE) -C $(KERN)util clean
 	$(MAKE) -C $(KERNARCH)util clean
 	$(MAKE) -C $(KERNARCH)thread clean
 	$(MAKE) -C $(KERNARCH)proc clean
