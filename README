@@ -11,4 +11,3 @@ BUILDING AND RUNNING PV6
 Until development is more stable I'm leaving build instructions out of this
 document, since they change too frequently.
 
-To run pv6, install the QEMU PC simulators.  To run in QEMU, run "make qemu".
