@@ -39,4 +39,6 @@ SECTIONS
     {
         *(.bss)
     }
+
+    PROVIDE(end = .);
 }
