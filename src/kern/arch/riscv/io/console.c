@@ -4,8 +4,9 @@
 void
 kprint(char *msg)
 {
-    while (*msg != 0) {
-        uartputc(*msg);
-        msg++;
+    char *p = msg;
+    while (*p != 0) {
+        uartputc(*p);
+        p++;
     }
 }

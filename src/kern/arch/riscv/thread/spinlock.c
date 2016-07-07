@@ -1,4 +1,6 @@
+#include "proc.h"
 #include "spinlock.h"
+#include "trap.h"
 
 void
 acquire(struct spinlock *lk)
@@ -25,9 +27,17 @@ release(struct spinlock *lk)
     lk->pcs[0] = 0;
     lk->cpu = 0;
 
-    spl_release(&lk->locked) != 0)
+    spl_release(&lk->locked);
 
     popcli();
+}
+
+// FIXME: this should be architecture independent, but it can't be until I
+// figure out what the deal is with the cpu problem I was encountering
+int
+holding(struct spinlock *lk)
+{
+    return lk->locked;
 }
 
 // TODO

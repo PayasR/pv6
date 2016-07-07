@@ -11,8 +11,12 @@ struct cpu {
     int intena;                 // were interrupts enabled before puscli?
 };
 
-extern struct cpu cpus[NCPU]
+extern struct cpu cpus[NCPU];
 extern int ncpu;
+
+// Per-CPU variables
+struct cpu *cpu;
+struct proc *proc;
 
 enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 

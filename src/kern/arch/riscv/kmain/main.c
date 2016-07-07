@@ -1,5 +1,11 @@
 #include "console.h"
+#include "kalloc.h"
+#include "memlayout.h"
+#include "proc.h"
 #include "uart.h"
+#include "trap.h"
+
+extern char end[]; // first address after kernel loaded from ELF file
 
 // Bootstrap processor starts running C code here.
 // Allocate a real stack and switch to it, first
@@ -7,17 +13,18 @@
 int
 main()
 {
-    uartinit();
+    kinit1(end, P2V(4*1024*1024));
     kprint("Hello lowRISC\n");
-
     for (;;) {
         // loop forever
     }
 }
 
+// This is just a temporary definition of panic. Eventually it will move into
+// the console file.
 void
-panic()
+panic(char *msg)
 {
-    // disable interrupts
-    // print why we're panicking
+    cli();
+    kprint(msg);
 }

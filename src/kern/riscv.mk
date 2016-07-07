@@ -1,4 +1,4 @@
-kernel: $(OBJS) kmain io boot trap util
+kernel: $(OBJS) kmain io boot trap util thread
 	$(LD) $(LDFLAGS) -T $(SCRIPTS)kernel.ld $(OBJS)
 	cp kernel $(ROOT)
 
@@ -11,6 +11,7 @@ IOARCH = $(addprefix $(KERNARCH)io/, uart.o uartasm.o console.o)
 KMAIN = $(addprefix $(KERNARCH)kmain/, main.o)
 ENTRY = $(addprefix $(KERNARCH)boot/, entry.o)
 TRAPARCH = $(addprefix $(KERNARCH)trap/, interrupt.o)
-UTILARCH = $(addprefix $(KERNARCH)util/, kalloc.o)
+UTILARCH = $(addprefix $(KERNARCH)util/, kalloc.o string.o)
+THREADARCH = $(addprefix $(KERNARCH)thread/, spinlock.o spinlockasm.o)
 
-OBJS = $(ENTRY) $(KMAIN) $(IOARCH) $(TRAPARCH) $(UTILARCH)
+OBJS = $(ENTRY) $(KMAIN) $(IOARCH) $(TRAPARCH) $(UTIL) $(UTILARCH) $(THREAD) $(THREADARCH)
