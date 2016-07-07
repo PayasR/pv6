@@ -14,7 +14,7 @@ int
 main()
 {
     kinit1(end, P2V(4*1024*1024));
-    kprint("Hello lowRISC\n");
+    cprintf("Hello lowRISC\n");
     for (;;) {
         // loop forever
     }

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "trap.h"
+#include "console.h"
 
 // This is a simple implementation. There are much trickier versions of memset
 // out there. Technically this implementation is portable so it doesn't need to

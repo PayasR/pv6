@@ -14,4 +14,4 @@ TRAPARCH = $(addprefix $(KERNARCH)trap/, interrupt.o)
 UTILARCH = $(addprefix $(KERNARCH)util/, kalloc.o string.o)
 THREADARCH = $(addprefix $(KERNARCH)thread/, spinlock.o spinlockasm.o)
 
-OBJS = $(ENTRY) $(KMAIN) $(IOARCH) $(TRAPARCH) $(UTIL) $(UTILARCH) $(THREAD) $(THREADARCH)
+OBJS = $(ENTRY) $(KMAIN) $(IO) $(IOARCH) $(TRAPARCH) $(UTIL) $(UTILARCH) $(THREAD) $(THREADARCH)

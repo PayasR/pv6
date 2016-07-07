@@ -1,6 +1,8 @@
 #include "proc.h"
 #include "spinlock.h"
 #include "trap.h"
+#include "console.h"
+#include "arch/trap.h"
 
 void
 acquire(struct spinlock *lk)

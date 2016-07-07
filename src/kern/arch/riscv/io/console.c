@@ -1,12 +1,25 @@
 #include "console.h"
 #include "uart.h"
+#include "trap.h"
+
+#define BACKSPACE 0X100
+
+extern int panicked;
 
 void
-kprint(char *msg)
+consputc(int c)
 {
-    char *p = msg;
-    while (*p != 0) {
-        uartputc(*p);
-        p++;
+    if (panicked) {
+        cli();
+        for (;;)
+            ;
+    }
+
+    if (c == BACKSPACE) {
+        uartputc('\b');
+        uartputc(' ');
+        uartputc('\b');
+    } else {
+        uartputc(c);
     }
 }
