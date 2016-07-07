@@ -19,12 +19,3 @@ main()
         // loop forever
     }
 }
-
-// This is just a temporary definition of panic. Eventually it will move into
-// the console file.
-void
-panic(char *msg)
-{
-    cli();
-    kprint(msg);
-}

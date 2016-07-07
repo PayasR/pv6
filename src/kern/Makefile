@@ -12,6 +12,7 @@ trap:
 
 io:
 	$(MAKE) -C $(KERNARCH)io
+	$(MAKE) -C $(KERN)io
 
 syscall:
 	$(MAKE) -C $(KERNARCH)syscall
@@ -47,11 +48,14 @@ clean:
 	$(MAKE) -C $(KERNARCH)proc clean
 	$(MAKE) -C $(KERNARCH)vm clean
 	$(MAKE) -C $(KERNARCH)boot clean
+	$(MAKE) -C $(KERN)io clean
+	$(MAKE) -C $(KERN)thread clean
 
 .PHONY: fs kmain trap io syscall util thread proc vm vectors boot
 
 # Architecture independent kernel files get added here
 FS = $(addprefix $(KERN)fs/, bio.o file.o log.o)
+IO = $(addprefix $(KERN)io/, console.o)
 UTIL = $(addprefix $(KERN)util/, string.o)
 THREAD = $(addprefix $(KERN)thread/, spinlock.o)
 

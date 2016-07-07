@@ -8,6 +8,7 @@
 #include "mmu.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "trap.h"
 
 // Acquire the lock.
 // Loops (spins) until the lock is acquired.
@@ -99,3 +100,9 @@ popcli(void)
     sti();
 }
 
+int
+holding(struct spinlock *lk)
+{
+    // FIXME: this is machine independent, but can't move until I fix a problem with the RISCV port
+    return lk->locked && lk->cpu == cpu;
+}
