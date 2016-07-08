@@ -8,7 +8,6 @@
 #include "vm.h"
 
 void freerange(void *vstart, void *vend);
-extern char end[]; // first address after kernel loaded from ELF file
 
 struct run {
     struct run *next;
@@ -31,5 +30,11 @@ kinit1(void *vstart, void *vend)
 void
 freerange(void *vstart, void *vend)
 {
-    // TODO: complete this
+    cprintf("vstart: %p\n", vstart);
+    cprintf("vend: %p\n", vend);
+    char *p;
+    p = (char *)PGROUNDUP((ulong)vstart);
+    for (; p + PGSIZE <= (char*)vend; p += PGSIZE) {
+        // TODO: add kfree call
+    }
 }

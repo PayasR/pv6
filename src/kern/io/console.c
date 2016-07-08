@@ -1,6 +1,5 @@
 // Console input and output.
-// Input is from the keyboard or serial port.
-// Output is written to the screen and serial port.
+// Output is written to the serial port.
 
 #include "console.h"
 #include "spinlock.h"

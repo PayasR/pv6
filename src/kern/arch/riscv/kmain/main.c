@@ -13,8 +13,19 @@ extern char end[]; // first address after kernel loaded from ELF file
 int
 main()
 {
-    kinit1(end, P2V(4*1024*1024));
+    // This is here temporarily, eventually I'll move it somewhere else
+    struct cpu c = {
+        .id = 0,
+        .scheduler = 0,
+        .started = 1,
+        .ncli = 0,
+        .intena = 0
+    };
+    cpu = &c;
+
+    cprintf("%d\n", 42);
     cprintf("Hello lowRISC\n");
+
     for (;;) {
         // loop forever
     }
