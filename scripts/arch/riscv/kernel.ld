@@ -40,5 +40,9 @@ SECTIONS
         *(.bss)
     }
 
+    tohost = .;
+    . = . + 8;
+    fromhost = .;
+
     PROVIDE(end = .);
 }
