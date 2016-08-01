@@ -10,7 +10,7 @@ void cli(void);
 int panicked = 0;
 
 static void
-printint(int xx, int base, int sign)
+printint(long xx, int base, int sign)
 {
     static char digits[] = "0123456789abcdef";
     char buf[16];
@@ -41,7 +41,8 @@ printint(int xx, int base, int sign)
 void
 cprintf(char *fmt, ...)
 {
-  int i, c, locking;
+  int i, locking;
+  long c;
   ulong *argp;
   char *s;
 
